@@ -46,19 +46,19 @@ AdventureMapWidget::AdventureMapWidget( std::shared_ptr<AdventureMapShortcuts> s
 	pos.w = ENGINE->screenDimensions().x;
 	pos.h = ENGINE->screenDimensions().y;
 
-	REGISTER_BUILDER("adventureInfobar",            &AdventureMapWidget::buildNullptr);
-	REGISTER_BUILDER("adventureMapImage",           &AdventureMapWidget::buildNullptr);
-	REGISTER_BUILDER("adventureMapButton",          &AdventureMapWidget::buildNullptr);
-	REGISTER_BUILDER("adventureMapContainer",       &AdventureMapWidget::buildNullptr);
-	// REGISTER_BUILDER("adventureMapGameArea",        &AdventureMapWidget::buildMapGameArea         );
-	REGISTER_BUILDER("adventureMapHeroList",        &AdventureMapWidget::buildNullptr);
-	REGISTER_BUILDER("adventureMapIcon",            &AdventureMapWidget::buildNullptr);
-	REGISTER_BUILDER("adventureMapTownList",        &AdventureMapWidget::buildNullptr);
-	REGISTER_BUILDER("adventureMinimap",            &AdventureMapWidget::buildNullptr);
-	REGISTER_BUILDER("adventureResourceDateBar",    &AdventureMapWidget::buildNullptr);
-	REGISTER_BUILDER("adventureStatusBar",          &AdventureMapWidget::buildNullptr);
-	REGISTER_BUILDER("adventurePlayerTexture",      &AdventureMapWidget::buildNullptr);
-	REGISTER_BUILDER("adventureResourceAdditional", &AdventureMapWidget::buildNullptr);
+	REGISTER_BUILDER("adventureInfobar",            &AdventureMapWidget::buildInfobox             );
+	REGISTER_BUILDER("adventureMapImage",           &AdventureMapWidget::buildMapImage            );
+	REGISTER_BUILDER("adventureMapButton",          &AdventureMapWidget::buildMapButton           );
+	REGISTER_BUILDER("adventureMapContainer",       &AdventureMapWidget::buildNullptr         	  );
+	REGISTER_BUILDER("adventureMapGameArea",        &AdventureMapWidget::buildMapGameArea         );
+	REGISTER_BUILDER("adventureMapHeroList",        &AdventureMapWidget::buildMapHeroList         );
+	REGISTER_BUILDER("adventureMapIcon",            &AdventureMapWidget::buildMapIcon             );
+	REGISTER_BUILDER("adventureMapTownList",        &AdventureMapWidget::buildMapTownList         );
+	REGISTER_BUILDER("adventureMinimap",            &AdventureMapWidget::buildMinimap             );
+	REGISTER_BUILDER("adventureResourceDateBar",    &AdventureMapWidget::buildResourceDateBar     );
+	REGISTER_BUILDER("adventureStatusBar",          &AdventureMapWidget::buildStatusBar           );
+	REGISTER_BUILDER("adventurePlayerTexture",      &AdventureMapWidget::buildTexturePlayerColored);
+	REGISTER_BUILDER("adventureResourceAdditional", &AdventureMapWidget::buildResourceAdditional  );
 
 	for (const auto & entry : shortcuts->getShortcuts())
 		addShortcut(entry.shortcut, entry.callback);
@@ -138,14 +138,14 @@ Rect AdventureMapWidget::readArea(const JsonNode & source, const Rect & bounding
 
 std::shared_ptr<CIntObject> AdventureMapWidget::buildInfobox(const JsonNode & input)
 {
-	Rect area = readTargetArea(input["area"]);
+	Rect area = Rect(0,0,0,0);
 	infoBar = std::make_shared<CInfoBar>(area);
 	return infoBar;
 }
 
 std::shared_ptr<CIntObject> AdventureMapWidget::buildMapImage(const JsonNode & input)
 {
-	Rect targetArea = readTargetArea(input["area"]);
+	Rect targetArea = Rect(0,0,0,0);
 	Rect sourceArea = readSourceArea(input["sourceArea"], input["area"]);
 	ImagePath path = ImagePath::fromJson(input["image"]);
 
@@ -157,7 +157,7 @@ std::shared_ptr<CIntObject> AdventureMapWidget::buildMapImage(const JsonNode & i
 
 std::shared_ptr<CIntObject> AdventureMapWidget::buildMapButton(const JsonNode & input)
 {
-	auto position = readTargetArea(input["area"]);
+	auto position = Rect(0,0,0,0);
 	auto image = AnimationPath::fromJson(input["image"]);
 	auto help = readHintText(input["help"]);
 	bool playerColored = input["playerColored"].Bool();
@@ -181,7 +181,7 @@ std::shared_ptr<CIntObject> AdventureMapWidget::buildMapButton(const JsonNode & 
 
 std::shared_ptr<CIntObject> AdventureMapWidget::buildMapContainer(const JsonNode & input)
 {
-	auto position = readTargetArea(input["area"]);
+	auto position = Rect(0,0,0,0);
 	std::shared_ptr<CAdventureMapContainerWidget> result;
 
 	if (!input["exists"].isNull())
@@ -232,7 +232,7 @@ std::shared_ptr<CIntObject> AdventureMapWidget::buildMapGameArea(const JsonNode 
 
 std::shared_ptr<CIntObject> AdventureMapWidget::buildMapHeroList(const JsonNode & input)
 {
-	Rect area = readTargetArea(input["area"]);
+	Rect area = Rect(0,0,0,0);
 	subwidgetSizes.push_back(area);
 
 	Rect item = readTargetArea(input["item"]);
@@ -257,7 +257,7 @@ std::shared_ptr<CIntObject> AdventureMapWidget::buildMapHeroList(const JsonNode 
 
 std::shared_ptr<CIntObject> AdventureMapWidget::buildMapIcon(const JsonNode & input)
 {
-	Rect area = readTargetArea(input["area"]);
+	Rect area = Rect(0,0,0,0);
 	size_t index = input["index"].Integer();
 	size_t perPlayer = input["perPlayer"].Integer();
 
@@ -266,10 +266,10 @@ std::shared_ptr<CIntObject> AdventureMapWidget::buildMapIcon(const JsonNode & in
 
 std::shared_ptr<CIntObject> AdventureMapWidget::buildMapTownList(const JsonNode & input)
 {
-	Rect area = readTargetArea(input["area"]);
+	Rect area = Rect(0,0,0,0);
 	subwidgetSizes.push_back(area);
 
-	Rect item = readTargetArea(input["item"]);
+	Rect item = Rect(0,0,0,0);
 	Point itemOffset(input["itemsOffset"]["x"].Integer(), input["itemsOffset"]["y"].Integer());
 	int itemsCount = input["itemsCount"].Integer();
 
@@ -290,14 +290,14 @@ std::shared_ptr<CIntObject> AdventureMapWidget::buildMapTownList(const JsonNode 
 
 std::shared_ptr<CIntObject> AdventureMapWidget::buildMinimap(const JsonNode & input)
 {
-	Rect area = readTargetArea(input["area"]);
+	Rect area = Rect(0,0,0,0);
 	minimap = std::make_shared<CMinimap>(area);
 	return minimap;
 }
 
 std::shared_ptr<CIntObject> AdventureMapWidget::buildResourceDateBar(const JsonNode & input)
 {
-	Rect area = readTargetArea(input["area"]);
+	Rect area = Rect(0,0,0,0);
 	auto image = ImagePath::fromJson(input["image"]);
 
 	auto result = std::make_shared<CResDataBar>(image, area.topLeft());
@@ -319,7 +319,7 @@ std::shared_ptr<CIntObject> AdventureMapWidget::buildResourceDateBar(const JsonN
 
 std::shared_ptr<CIntObject> AdventureMapWidget::buildStatusBar(const JsonNode & input)
 {
-	Rect area = readTargetArea(input["area"]);
+	Rect area = Rect(0,0,0,0);
 	auto image = ImagePath::fromJson(input["image"]);
 
 	auto background = std::make_shared<CFilledTexture>(image, area);
@@ -330,7 +330,7 @@ std::shared_ptr<CIntObject> AdventureMapWidget::buildStatusBar(const JsonNode & 
 std::shared_ptr<CIntObject> AdventureMapWidget::buildTexturePlayerColored(const JsonNode & input)
 {
 	logGlobal->debug("Building widget CFilledTexture");
-	Rect area = readTargetArea(input["area"]);
+	Rect area = Rect(0,0,0,0);
 	return std::make_shared<FilledTexturePlayerColored>(area);
 }
 
@@ -339,7 +339,7 @@ std::shared_ptr<CIntObject> AdventureMapWidget::buildResourceAdditional(const Js
 	OBJECT_CONSTRUCTION;
 
 	logGlobal->debug("Building widget ResourceAdditional");
-	Rect area = readTargetArea(input["area"]);
+	Rect area = Rect(0,0,0,0);
 	auto obj = std::make_shared<CIntObject>();
 
 	int remainingSpace = area.w;
