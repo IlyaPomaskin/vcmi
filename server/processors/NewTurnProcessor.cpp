@@ -138,10 +138,6 @@ void NewTurnProcessor::onPlayerTurnStarted(PlayerColor which)
 {
 	const auto * playerState = gameHandler->gameState().getPlayerState(which);
 
-	handleTimeEvents(which);
-	for (const auto * t : playerState->getTowns())
-		handleTownEvents(t);
-
 	for (const auto * t : playerState->getTowns())
 	{
 		//garrison hero first - consistent with original H3 Mana Vortex and Battle Scholar Academy levelup windows order
