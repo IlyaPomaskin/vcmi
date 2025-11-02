@@ -43,6 +43,7 @@ class AdventureMapWidget : public InterfaceObjectConfigurable
 	Rect readSourceArea(const JsonNode & source, const JsonNode & sourceCommon);
 	Rect readArea(const JsonNode & source, const Rect & boundingBox);
 
+	std::shared_ptr<CIntObject> buildNullptr(const JsonNode & input);
 	std::shared_ptr<CIntObject> buildInfobox(const JsonNode & input);
 	std::shared_ptr<CIntObject> buildMapImage(const JsonNode & input);
 	std::shared_ptr<CIntObject> buildMapButton(const JsonNode & input);

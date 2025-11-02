@@ -46,19 +46,19 @@ AdventureMapWidget::AdventureMapWidget( std::shared_ptr<AdventureMapShortcuts> s
 	pos.w = ENGINE->screenDimensions().x;
 	pos.h = ENGINE->screenDimensions().y;
 
-	REGISTER_BUILDER("adventureInfobar",            &AdventureMapWidget::buildInfobox             );
-	REGISTER_BUILDER("adventureMapImage",           &AdventureMapWidget::buildMapImage            );
-	REGISTER_BUILDER("adventureMapButton",          &AdventureMapWidget::buildMapButton           );
-	REGISTER_BUILDER("adventureMapContainer",       &AdventureMapWidget::buildMapContainer        );
-	REGISTER_BUILDER("adventureMapGameArea",        &AdventureMapWidget::buildMapGameArea         );
-	REGISTER_BUILDER("adventureMapHeroList",        &AdventureMapWidget::buildMapHeroList         );
-	REGISTER_BUILDER("adventureMapIcon",            &AdventureMapWidget::buildMapIcon             );
-	REGISTER_BUILDER("adventureMapTownList",        &AdventureMapWidget::buildMapTownList         );
-	REGISTER_BUILDER("adventureMinimap",            &AdventureMapWidget::buildMinimap             );
-	REGISTER_BUILDER("adventureResourceDateBar",    &AdventureMapWidget::buildResourceDateBar     );
-	REGISTER_BUILDER("adventureStatusBar",          &AdventureMapWidget::buildStatusBar           );
-	REGISTER_BUILDER("adventurePlayerTexture",      &AdventureMapWidget::buildTexturePlayerColored);
-	REGISTER_BUILDER("adventureResourceAdditional", &AdventureMapWidget::buildResourceAdditional  );
+	REGISTER_BUILDER("adventureInfobar",            &AdventureMapWidget::buildNullptr);
+	REGISTER_BUILDER("adventureMapImage",           &AdventureMapWidget::buildNullptr);
+	REGISTER_BUILDER("adventureMapButton",          &AdventureMapWidget::buildNullptr);
+	REGISTER_BUILDER("adventureMapContainer",       &AdventureMapWidget::buildNullptr);
+	// REGISTER_BUILDER("adventureMapGameArea",        &AdventureMapWidget::buildMapGameArea         );
+	REGISTER_BUILDER("adventureMapHeroList",        &AdventureMapWidget::buildNullptr);
+	REGISTER_BUILDER("adventureMapIcon",            &AdventureMapWidget::buildNullptr);
+	REGISTER_BUILDER("adventureMapTownList",        &AdventureMapWidget::buildNullptr);
+	REGISTER_BUILDER("adventureMinimap",            &AdventureMapWidget::buildNullptr);
+	REGISTER_BUILDER("adventureResourceDateBar",    &AdventureMapWidget::buildNullptr);
+	REGISTER_BUILDER("adventureStatusBar",          &AdventureMapWidget::buildNullptr);
+	REGISTER_BUILDER("adventurePlayerTexture",      &AdventureMapWidget::buildNullptr);
+	REGISTER_BUILDER("adventureResourceAdditional", &AdventureMapWidget::buildNullptr);
 
 	for (const auto & entry : shortcuts->getShortcuts())
 		addShortcut(entry.shortcut, entry.callback);
@@ -70,6 +70,11 @@ AdventureMapWidget::AdventureMapWidget( std::shared_ptr<AdventureMapShortcuts> s
 
 	build(config);
 	addUsedEvents(KEYBOARD);
+}
+
+std::shared_ptr<CIntObject> AdventureMapWidget::buildNullptr(const JsonNode & input)
+{
+    return nullptr;
 }
 
 void AdventureMapWidget::onMapViewMoved(const Rect & visibleArea, int newMapLevel)
@@ -220,7 +225,7 @@ std::shared_ptr<CIntObject> AdventureMapWidget::buildMapContainer(const JsonNode
 
 std::shared_ptr<CIntObject> AdventureMapWidget::buildMapGameArea(const JsonNode & input)
 {
-	Rect area = readTargetArea(input["area"]);
+	Rect area = pos;
 	mapView = std::make_shared<MapView>(area.topLeft(), area.dimensions());
 	return mapView;
 }
