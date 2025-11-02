@@ -363,13 +363,7 @@ int main(int argc, char * argv[])
 	}
 	else if (!settings["session"]["headless"].Bool())
 	{
-		GAME->mainmenu()->makeActiveInterface();
-
-		bool playIntroVideo = !vm.count("battle") && !vm.count("nointro") && settings["video"]["showIntro"].Bool();
-		if(playIntroVideo)
-			GAME->mainmenu()->playIntroVideos();
-		else
-			GAME->mainmenu()->playMusic();
+		std::thread(&CServerHandler::startWP, &GAME->server()).detach();
 	}
 	
 #ifndef VCMI_UNIX

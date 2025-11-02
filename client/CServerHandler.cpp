@@ -782,6 +782,16 @@ ELoadMode CServerHandler::getLoadMode()
 	return loadMode;
 }
 
+void CServerHandler::startWP()
+{
+    logGlobal->info("Starting WP");
+    ResourcePath tutorialMap("Maps/Tutorial.tut", EResType::MAP);
+    auto mapInfo = std::make_shared<CMapInfo>();
+    mapInfo->mapInit(tutorialMap.getName());
+    CMainMenu::openLobby(ESelectionScreen::newGame, true, {}, ELoadMode::NONE);
+    startMapAfterConnection(mapInfo);
+}
+
 void CServerHandler::debugStartTest(std::string filename, bool save)
 {
 	logGlobal->info("Starting debug test with file: %s", filename);

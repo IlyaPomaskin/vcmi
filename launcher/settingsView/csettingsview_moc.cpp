@@ -260,19 +260,7 @@ QSize CSettingsView::getPreferredRenderingResolution()
 
 void CSettingsView::fillValidScalingRange()
 {
-	//FIXME: this code is copy of ScreenHandler::getSupportedScalingRange
-
-	// H3 resolution, any resolution smaller than that is not correctly supported
-	static const QSize minResolution = {800, 600};
-	// arbitrary limit on *downscaling*. Allow some downscaling, if requested by user. Should be generally limited to 100+ for all but few devices
-	static const double minimalScaling = 50;
-
-	QSize renderResolution = getPreferredRenderingResolution();
-	double maximalScalingWidth = 100.0 * renderResolution.width() / minResolution.width();
-	double maximalScalingHeight = 100.0 * renderResolution.height() / minResolution.height();
-	double maximalScaling = std::min(maximalScalingWidth, maximalScalingHeight);
-
-	ui->spinBoxInterfaceScaling->setRange(minimalScaling, maximalScaling);
+	ui->spinBoxInterfaceScaling->setRange(100, 600);
 }
 
 #ifndef VCMI_MOBILE

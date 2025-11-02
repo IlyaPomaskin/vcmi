@@ -40,20 +40,8 @@ static constexpr Point heroes3Resolution = Point(800, 600);
 
 std::tuple<int, int> ScreenHandler::getSupportedScalingRange() const
 {
-	// H3 resolution, any resolution smaller than that is not correctly supported
-	static constexpr Point minResolution = heroes3Resolution;
-	// arbitrary limit on *downscaling*. Allow some downscaling, if requested by user. Should be generally limited to 100+ for all but few devices
-	static constexpr double minimalScaling = 50;
-
-	Point renderResolution = getRenderResolution();
-	double reservedAreaWidth = settings["video"]["reservedWidth"].Float();
-	Point availableResolution = Point(renderResolution.x * (1 - reservedAreaWidth), renderResolution.y);
-	if(renderResolution.x < renderResolution.y) // reserved in portrait mode
-		availableResolution = Point(renderResolution.x, renderResolution.y * (1 - reservedAreaWidth));
-
-	double maximalScalingWidth = 100.0 * availableResolution.x / minResolution.x;
-	double maximalScalingHeight = 100.0 * availableResolution.y / minResolution.y;
-	double maximalScaling = std::min(maximalScalingWidth, maximalScalingHeight);
+	static constexpr double minimalScaling = 100;
+	static constexpr double maximalScaling = 600;
 
 	return { minimalScaling, maximalScaling };
 }
