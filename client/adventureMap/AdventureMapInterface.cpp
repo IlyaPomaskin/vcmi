@@ -96,6 +96,7 @@ void AdventureMapInterface::onAudioPaused()
 
 void AdventureMapInterface::onHeroMovementStarted(const CGHeroInstance * hero)
 {
+	return;
 	if (shortcuts->optionMapViewActive())
 	{
 		widget->getInfoBar()->popAll();
@@ -105,6 +106,7 @@ void AdventureMapInterface::onHeroMovementStarted(const CGHeroInstance * hero)
 
 void AdventureMapInterface::onHeroChanged(const CGHeroInstance *h)
 {
+	return;
 	widget->getHeroList()->updateElement(h);
 
 	if (h && h == GAME->interface()->localState->getCurrentHero() && !widget->getInfoBar()->showingComponents())
@@ -115,6 +117,7 @@ void AdventureMapInterface::onHeroChanged(const CGHeroInstance *h)
 
 void AdventureMapInterface::onTownChanged(const CGTownInstance * town)
 {
+	return;
 	widget->getTownList()->updateElement(town);
 
 	if (town && town == GAME->interface()->localState->getCurrentTown() && !widget->getInfoBar()->showingComponents())
@@ -406,6 +409,7 @@ void AdventureMapInterface::onCurrentPlayerChanged(PlayerColor playerID)
 
 void AdventureMapInterface::onPlayerTurnStarted(PlayerColor playerID)
 {
+	return;
 	backgroundDimLevel = settings["adventure"]["backgroundDimLevel"].Integer();
 
 	onCurrentPlayerChanged(playerID);
