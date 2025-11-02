@@ -44,7 +44,7 @@ endif()
 option(ENABLE_CLIENT "Enable compilation of game client" ON)
 option(ENABLE_ERM "Enable compilation of ERM scripting module" OFF)
 option(ENABLE_LUA "Enable compilation of LUA scripting module" OFF)
-option(ENABLE_VIDEO "Enable video support using ffmpeg" ON)
+option(ENABLE_VIDEO "Enable video support using ffmpeg" OFF)
 option(ENABLE_TRANSLATIONS "Enable generation of translations for launcher and editor" ON)
 option(ENABLE_NULLKILLER_AI "Enable compilation of Nullkiller AI library" ON)
 option(ENABLE_MINIMAL_LIB "Build only core parts of vcmi library that are required for game lobby" OFF)
@@ -57,7 +57,7 @@ option(ENABLE_DEBUG_CONSOLE "Enable debug console for Windows builds" ON)
 option(ENABLE_STRICT_COMPILATION "Treat all compiler warnings as errors" OFF)
 option(ENABLE_MULTI_PROCESS_BUILDS "Enable /MP flag for MSVS solution" ON)
 option(ENABLE_COLORIZED_COMPILER_OUTPUT "Colorize compilation output (Clang/GNU)." ON)
-option(ENABLE_CCACHE "Speed up recompilation by caching previous compilations" OFF)
+option(ENABLE_CCACHE "Speed up recompilation by caching previous compilations" ON)
 
 # Platform-specific options
 
